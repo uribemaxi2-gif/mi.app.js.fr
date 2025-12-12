@@ -1,0 +1,108 @@
+/* ========================================================= */
+/* 1. VARIABLES CSS (Utiliza estas variables en tus componentes) */
+/* ========================================================= */
+:root {
+    --color-primary: #007bff; /* Azul vibrante */
+    --color-secondary: #6c757d; /* Gris para elementos secundarios */
+    --color-background: #f8f9fa; /* Fondo claro */
+    --color-text: #343a40; /* Texto oscuro */
+    --color-error: #dc3545; /* Rojo para errores */
+    --font-stack: 'Arial', sans-serif;
+    --border-radius: 4px;
+    --spacing-unit: 10px;
+}
+
+/* ========================================================= */
+/* 2. RESET Y ESTILOS GLOBALES */
+/* ========================================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-stack);
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+h1, h2, h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+}
+
+/* Contenedor principal para centrar contenido */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ========================================================= */
+/* 3. ESTILOS DE FORMULARIO REUTILIZABLES */
+/* ========================================================= */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    box-sizing: border-box; /* Asegura que padding no aumente el width total */
+    font-size: 16px;
+}
+
+/* Estilo para mensajes de error en formularios */
+.error-message {
+    color: var(--color-error);
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* ========================================================= */
+/* 4. ESTILOS DE BOTONES */
+/* ========================================================= */
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Tono más oscuro al pasar el ratón */
+}
+
+.btn-block {
+    width: 100%;
+    display: block;
+}
+
+/* Estilo para tarjetas o contenedores con fondo blanco (ej: formulario de login) */
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo específico para centrar la tarjeta de login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa el 100% de la altura de la ventana */
+}
+
+.login-container .card {
+    width: 100%;
+    max-width: 400px;
+}
