@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(!!user);
     const navigate = useNavigate();
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     // 2. Variable CALCULADA para isAdmin (NO es estado, se recalcula al cambiar user)
     // Esto resuelve la colisión de nombres y el error setIsAdmin is not defined.
@@ -40,6 +41,9 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('user', JSON.stringify(user));
         } else {
             localStorage.removeItem('user');
+        }
+        if (isCheckingAuth) {
+            setIsCheckingAuth(false);
         }
     }, [user]);
 
@@ -64,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
     // 6. El contexto expone la variable calculada 'isAdmin'
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, isAdmin, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, isAdmin, isCheckingAuth, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
