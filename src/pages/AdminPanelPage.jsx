@@ -141,7 +141,7 @@ const AdminPanelPage = () => {
                     onClick={() => setActiveTab('proyectos')} 
                     style={{ fontWeight: activeTab === 'proyectos' ? 'bold' : 'normal', padding: '10px', border: 'none', backgroundColor: activeTab === 'proyectos' ? '#e9ecef' : 'transparent' }}
                 >
-                    Proyectos (CRUD)
+                    Proyectos 
                 </button>
                 <button 
                     onClick={() => setActiveTab('usuarios')} 
