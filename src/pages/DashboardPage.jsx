@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 
 const DashboardPage = () => {
     const { user, isAdmin } = useAuth();
+    const [projects, setProjects] = useState([]);
 
     if (!user) {
         return <p>Cargando información del usuario...</p>;
