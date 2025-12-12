@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // <--- 1. Importar useNavigate
 
 const AuthContext = createContext();
 
@@ -14,6 +15,8 @@ export const AuthProvider = ({ children }) => {
         }
     });
     const [isAuthenticated, setIsAuthenticated] = useState(!!user);
+
+    const navigate = useNavigate();
 
     // 2. Mantener localStorage sincronizado con el estado 'user'
     useEffect(() => {
@@ -31,10 +34,15 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        localStorage.removeItem('user'); // O 'token', dependiendo de cómo lo almacenes
-        setUser(null); // Establece el estado de usuario a null
-        // CRÍTICO: Redirigir al usuario AHORA MISMO
-        navigate('/login'); // Debes tener acceso a 'navigate' de react-router-dom
+        localStorage.removeItem('user'); 
+        // Si tienes el token guardado por separado: 
+        // localStorage.removeItem('token'); 
+
+        setUser(null); 
+        setIsAdmin(false); 
+        
+        // 3. CRÍTICO: Usar navigate() para redirigir a /login
+        navigate('/login'); 
     };
 
     const isAdmin = user && user.role === 'admin';
