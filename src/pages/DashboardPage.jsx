@@ -11,42 +11,53 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState(true); // Estado de carga
     const [error, setError] = useState(null);     // Estado de error
 
-    // Mostrar siempre la lista de proyectos al montar el componente
+    // Función para obtener la lista de proyectos desde el backend
     const fetchProjects = async () => {
-        setLoading(true); // Iniciar carga
-        setError(null);   // Limpiar errores
+        setLoading(true); 
+        setError(null); 
 
         try {
-            // Llama a GET /api/projects para listar los proyectos
-            // El backend decide si muestra TODOS (admin) o solo PUBLICOS (user)
+            // Llama a GET /api/projects. El backend decide qué mostrar
+            // basándose en el rol (admin ve todo, user normal ve solo públicos)
             const response = await api.get('/projects'); 
             setProjects(response.data);
             
         } catch (err) {
             setError('Error al cargar proyectos. Por favor, intenta de nuevo.');
             
-            // Si el token es inválido o el rol falló, forzar logout
+            // Si el backend responde con token inválido o acceso denegado (401/403),
+            // se asume que la sesión expiró y se fuerza el logout.
             if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 logout(); 
             }
         } finally {
-            setLoading(false); // Terminar carga
+            setLoading(false); // Siempre termina la carga
         }
     };
 
-    // 2. Cargar proyectos solo al montar el componente
+    // 2. Cargar proyectos al montar el componente, siempre que el 'user' esté cargado
     useEffect(() => {
-        // Solo intentamos cargar si ya tenemos los datos del usuario
+        // Ejecutar la carga solo si el objeto 'user' ya está en el contexto
         if (user) { 
             fetchProjects();
         }
-    }, [user]); // Depende de 'user' para asegurarse de que esté cargado
+    }, [user]); // Se dispara si 'user' cambia de null a un objeto (inicio de sesión)
 
-    // Manejo de carga e identidad
-    if (loading || !user) {
-        return <p>Cargando información y proyectos...</p>;
+    // 3. Manejo de estados de carga y error (Para evitar el TypeError: reading 'username')
+    // Si no hay 'user' (ej: después de cerrar sesión o antes de cargar el contexto)
+    if (!user) {
+        // Esto evita el error de intentar leer user.username cuando user es null
+        // El router debería redirigir a /login, pero esto previene el fallo de JS.
+        return <p>Cargando información del usuario o redirigiendo...</p>; 
     }
 
+    // Si aún está cargando los datos de la API
+    if (loading) {
+        return <p>Cargando proyectos...</p>;
+    }
+
+
+    // 4. Renderizado Final del Dashboard
     return (
         <div style={{ padding: '20px' }}>
             <h1>Bienvenido, {user.username}</h1>
@@ -61,8 +72,10 @@ const DashboardPage = () => {
             <hr />
             <h2>Listado de Experimentos ({projects.length})</h2>
             
+            {/* Mostrar mensaje de error si la API falló */}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             
+            {/* Listado de Proyectos */}
             <ul style={{ listStyle: 'none', padding: 0 }}>
                 {projects.map((project) => (
                     <li key={project._id} className="card" style={{ border: '1px solid #eee', padding: '10px', marginBottom: '10px' }}>

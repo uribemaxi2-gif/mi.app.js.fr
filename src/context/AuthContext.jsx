@@ -31,11 +31,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        // 1. CRÍTICO: Borrar el item de almacenamiento
-        localStorage.removeItem('user'); 
-        
-        // 2. CRÍTICO: Resetear el estado de React
-        setUser(null); 
+        localStorage.removeItem('user'); // O 'token', dependiendo de cómo lo almacenes
+        setUser(null); // Establece el estado de usuario a null
+        // CRÍTICO: Redirigir al usuario AHORA MISMO
+        navigate('/login'); // Debes tener acceso a 'navigate' de react-router-dom
     };
 
     const isAdmin = user && user.role === 'admin';
