@@ -29,9 +29,7 @@ const Navbar = () => {
             <div>
                 {isAuthenticated ? (
                     <>
-                        {user && (
-                            <span style={{ marginRight: '15px' }}>Hola, {user.username}</span>
-                        )}
+                        <span style={{ marginRight: '15px' }}>Hola, {user.username}</span>
                         <button onClick={handleLogout} style={{ padding: '5px 10px', cursor: 'pointer' }}>
                             Cerrar Sesión
                         </button>
