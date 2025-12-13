@@ -90,7 +90,7 @@ h1, h2, h3 {
 
 .btn-primary {
     background-color: var(--color-primary);
-    color: rgb(22, 192, 65);
+    color: rgb(255, 255, 255);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para elevarlo */
 }
 
@@ -100,7 +100,7 @@ h1, h2, h3 {
 }
 
 .btn-primary:active {
-    background-color: #061323; /* Tono más oscuro al hacer click */
+    background-color: #004494; /* Tono más oscuro al hacer click */
     transform: translateY(1px); /* Efecto de presión */
     box-shadow: none;
 }
@@ -115,7 +115,7 @@ h1, h2, h3 {
 /* ========================================================= */
 
 .card {
-    background-color: rgb(222, 2, 2);
+    background-color: rgb(255, 255, 255);
     padding: var(--spacing-unit); 
     border-radius: var(--border-radius);
     /* Sombra de elevación moderna */
