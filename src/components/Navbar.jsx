@@ -1,52 +1,52 @@
-// frontend-app/src/components/Navbar.jsx
+// frontend-app/src/components/Navbar.jsx (CÓDIGO CORREGIDO)
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Eliminamos useNavigate ya que el logout lo maneja
 import { useAuth } from '../context/AuthContext';
-
-// Sugerencia: Define esta clase en styles.css para que sea consistente
-// .navbar-container { display: flex; justify-content: space-between; padding: 10px 20px; background-color: var(--color-text); color: white; }
 
 const Navbar = () => {
     const { isAuthenticated, isAdmin, logout, user } = useAuth();
 
     const handleLogout = () => {
+        // Ejecuta el logout (que debe redirigir a /login en el AuthContext)
         logout(); 
     };
 
     return (
-        <nav className="navbar-container"> {/* Asumiendo que defines la clase 'navbar-container' en styles.css */}
-            <div style={{ display: 'flex', gap: '20px' }}>
-                <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link>
+        // 1. Aplicar clase principal de Navbar
+        <nav className="navbar-container"> 
+            
+            <div className="navbar-links"> {/* Usar clase para espaciado */}
+                {/* 2. Aplicar clase para enlaces */}
+                <Link to="/" className="navbar-link">Home</Link>
                 
                 {isAdmin && (
-                    <Link to="/admin" style={{ color: 'lightgreen', textDecoration: 'none' }}>Panel Admin</Link>
+                    <Link to="/admin" className="navbar-link" style={{ color: 'lightgreen' }}>Panel Admin</Link>
                 )}
             </div>
 
-            <div>
+            <div className="user-auth-area"> {/* Usar clase para alinear elementos de autenticación */}
                 {isAuthenticated ? (
                     <>
-                        {/* 🚨 CORRECCIÓN: Usar 'user &&' para evitar el error de null */}
-                        {user && <span style={{ marginRight: '15px' }}>Hola, {user.username}</span>}
+                        {/* 3. Saludo con clase y comprobación de user */}
+                        {user && <span className="user-greeting">Hola, {user.username}</span>} 
+                        
                         <button 
                             onClick={handleLogout} 
+                            // 4. Usar la clase btn general y un estilo de botón secundario/transparente
                             className="btn" 
                             style={{ 
-                                // Estilo inline temporal para que se vea como botón de logout. 
-                                // Idealmente, se movería a una clase en styles.css (ej: .btn-secondary)
                                 backgroundColor: 'transparent', 
                                 color: 'white', 
                                 border: '1px solid white', 
-                                padding: '5px 10px', 
-                                cursor: 'pointer' 
+                                padding: '8px 16px', /* Ajuste de padding temporal */
                             }}
                         >
                             Cerrar Sesión
                         </button>
                     </>
                 ) : (
-                    <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Iniciar Sesión</Link>
+                    <Link to="/login" className="navbar-link">Iniciar Sesión</Link>
                 )}
             </div>
         </nav>

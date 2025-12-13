@@ -134,3 +134,40 @@ h1, h2, h3 {
     width: 100%;
     max-width: 400px;
 }
+
+/* ========================================================= */
+/* 6. ESTILOS DE BARRA DE NAVEGACIÓN (Navbar) */
+/* ========================================================= */
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between; /* Espacia los links y el usuario */
+    align-items: center; /* Centra verticalmente todos los elementos */
+    padding: 10px var(--spacing-unit); /* Usa tu variable de espaciado */
+    background-color: var(--color-text); /* Fondo oscuro (el color de texto base) */
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.navbar-links,
+.user-auth-area {
+    display: flex;
+    gap: var(--spacing-unit); /* Separa los enlaces */
+    align-items: center;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.navbar-link:hover {
+    color: var(--color-primary); /* Resaltar al pasar el ratón */
+}
+
+.user-greeting {
+    margin-right: 15px; /* Espacio entre el saludo y el botón */
+    font-weight: 300;
+}
