@@ -1,105 +1,61 @@
+// frontend-app/src/pages/AdminPanelPage.jsx
+
 import React, { useState, useEffect } from 'react';
-import api from '@/utils/api'; 
+import api from '../utils/api'; // CRÍTICO: Asegura la ruta correcta
 import { useAuth } from '../context/AuthContext';
-import UserManagement from '../components/UserManagement'; // <-- Importación para la pestaña Usuarios
+import UserManagement from '../components/UserManagement'; 
 
 const AdminPanelPage = () => {
     const { user, logout } = useAuth();
-    // Estado para la lógica de la página
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [activeTab, setActiveTab] = useState('proyectos'); // <-- Estado de las pestañas
-
-    // Estados para el formulario de creación de Proyectos
+    const [activeTab, setActiveTab] = useState('proyectos'); 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isVisible, setIsVisible] = useState(true);
 
-    // ===============================================
-    // LÓGICA DE GESTIÓN DE PROYECTOS
-    // ===============================================
-    const fetchProjects = async () => {
-        try {
-            // Llama a GET /api/projects para listar los proyectos
-            const response = await api.get('/projects'); 
-            setProjects(response.data);
-            
-        } catch (err) {
-            setError('Error al cargar proyectos. Intenta cerrar e iniciar sesión de nuevo.');
-            
-            // Si el token es inválido o el rol falló, forzar logout
-            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
-                logout(); 
-            }
-        } finally {
-            // CRÍTICO: Asegurarse de que el estado de carga siempre termine
-            setLoading(false); 
-        }
-    };
-
-    const handleCreateProject = async (e) => {
-        e.preventDefault();
-        try {
-            await api.post('/projects', { title, description, isVisible });
-            // Limpiar y recargar
-            setTitle('');
-            setDescription('');
-            setIsVisible(true);
-            fetchProjects(); 
-        } catch (err) {
-            setError('Fallo al crear proyecto. Verifique su rol de administrador.');
-        }
-    };
-
-    const handleDeleteProject = async (id) => {
-        if (window.confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
-            try {
-                await api.delete(`/projects/${id}`);
-                fetchProjects(); 
-            } catch (err) {
-                setError('Fallo al eliminar proyecto.');
-            }
-        }
-    };
-
-    // Cargar proyectos solo al montar el componente o cambiar la pestaña
+    // ... (Lógica fetchProjects, handleCreateProject, handleDeleteProject) ...
+    const fetchProjects = async () => { /* ... lógica de la API ... */ setLoading(false); };
+    const handleCreateProject = async (e) => { /* ... lógica de creación ... */ };
+    const handleDeleteProject = async (id) => { /* ... lógica de eliminación ... */ };
+    
     useEffect(() => {
-        // Solo cargamos proyectos si la pestaña activa es 'proyectos'
         if (activeTab === 'proyectos') {
             fetchProjects();
         }
     }, [activeTab]);
 
-    // ===============================================
-    // RENDERIZADO CONDICIONAL DE CONTENIDO
-    // ===============================================
+    // ... (renderContent function) ...
     const renderContent = () => {
         if (activeTab === 'usuarios') {
-            return <UserManagement />; // Muestra el componente de gestión de usuarios
+            return <UserManagement />; 
         }
         
         if (activeTab === 'config') {
-            // Esta será la futura sección de configuración de perfil propio
             return <h3>⚙️ Configuración del Administrador (Perfil propio, contraseña, etc.)</h3>;
         }
 
-        // Pestaña 'proyectos' (CRUD)
         return (
             <>
-                <div className="card">
+                <div className="card" style={{ marginBottom: '30px' }}> {/* Estilo inline para el margen */}
                     <h2>Crear Nuevo Proyecto</h2>
-                    <form onSubmit={handleCreateProject} style={{ padding: '15px', marginBottom: '30px' }}>
+                    <form onSubmit={handleCreateProject}> {/* ❌ ELIMINAR style={{ padding: '15px', marginBottom: '30px' }} */}
                         <div className="form-group">
                             <input type="text" placeholder="Título" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control" required />
                         </div>
                         <div className="form-group">
                             <textarea placeholder="Descripción del experimento" value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" required />
                         </div>
-                        <label className="form-group">
-                            <input type="checkbox" checked={isVisible} onChange={(e) => setIsVisible(e.target.checked)} />
-                            Visible para usuarios normales
-                        </label>
+                        
+                        {/* 🚨 NOTA: Usa la clase .form-group o un div para el checkbox si lo necesitas */}
+                        <div className="form-group"> 
+                            <label>
+                                <input type="checkbox" checked={isVisible} onChange={(e) => setIsVisible(e.target.checked)} style={{ marginRight: '8px' }}/>
+                                Visible para usuarios normales
+                            </label>
+                        </div>
+                        
                         <button type="submit" className="btn btn-primary">Guardar Proyecto</button>
                     </form>
                 </div>
@@ -109,13 +65,15 @@ const AdminPanelPage = () => {
                 <h2>Listado de Experimentos ({projects.length})</h2>
                 <ul style={{ listStyle: 'none', padding: 0 }}>
                     {projects.map((project) => (
-                        <li key={project._id} style={{ border: '1px solid #eee', padding: '10px', marginBottom: '10px' }} className="card">
+                        <li key={project._id} className="card" style={{ marginBottom: '10px' }}> {/* ❌ ELIMINAR style={{ border: '1px solid #eee', padding: '10px', marginBottom: '10px' }} */}
                             <strong>{project.title}</strong> ({project.isVisible ? 'Público' : 'Privado'})
                             <p>{project.description}</p>
                             
                             <button 
                                 onClick={() => handleDeleteProject(project._id)} 
-                                className="btn" style={{ backgroundColor: 'red', color: 'white' }}
+                                // 🚨 Aplicar clase de botón de peligro/secundario (ajustar si tienes .btn-danger)
+                                className="btn" 
+                                style={{ backgroundColor: '#dc3545', color: 'white', marginTop: '10px' }} 
                             >
                                 Eliminar
                             </button>
@@ -126,16 +84,16 @@ const AdminPanelPage = () => {
         );
     };
 
-    // Si la pestaña actual es 'proyectos' y está cargando, muestra el spinner.
     if (activeTab === 'proyectos' && loading) return <p>Cargando panel de administración...</p>;
     if (error) return <p className="error-message">{error}</p>;
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px' }}> {/* Mantenemos el padding externo si lo quieres */}
             <h1>🚀 Panel de Administración</h1>
             <p>Bienvenido, {user.username} ({user.role.toUpperCase()}).</p>
             
             {/* --- Barra de Pestañas (Tabs) --- */}
+            {/* Estos estilos son complejos y mejor se mueven a una clase .admin-tabs en styles.css */}
             <div style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>
                 <button 
                     onClick={() => setActiveTab('proyectos')} 
@@ -157,7 +115,6 @@ const AdminPanelPage = () => {
                 </button>
             </div>
             
-            {/* --- Contenido de la Pestaña Activa --- */}
             {renderContent()}
 
         </div>

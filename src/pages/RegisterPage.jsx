@@ -1,3 +1,5 @@
+// frontend-app/src/pages/RegisterPage.jsx
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api'; 
@@ -15,12 +17,11 @@ const RegisterPage = () => {
         setMessage('');
 
         try {
-            // 2. CRÍTICO: Usar 'api.post' y SOLO la ruta relativa
             await api.post('/auth/register', { username, password });
             
             setMessage('¡Registro exitoso! Ya puedes iniciar sesión.');
             setTimeout(() => {
-                navigate('/login'); // Redirigir al login después del registro
+                navigate('/login');
             }, 2000);
 
         } catch (err) {
@@ -33,7 +34,11 @@ const RegisterPage = () => {
             <div className="card">
                 <h2>Registrarse</h2>
                 <form onSubmit={handleSubmit}>
+                    
+                    {/* Aplicamos la clase de error */}
                     {error && <p className="error-message">{error}</p>}
+                    
+                    {/* Aplicamos la clase de mensaje de éxito (debes definirla en styles.css) */}
                     {message && <p style={{ color: 'green', marginBottom: '15px' }}>{message}</p>}
                     
                     <div className="form-group">
@@ -68,7 +73,8 @@ const RegisterPage = () => {
                     </button>
                 </form>
 
-                <p style={{ marginTop: '20px', textAlign: 'center' }}>
+                {/* ❌ ELIMINAR style={{ marginTop: '20px', textAlign: 'center' }} si ya lo tiene .form-group */}
+                <p className="form-group" style={{ textAlign: 'center' }}>
                     ¿Ya tienes cuenta? <Link to="/login">Inicia Sesión aquí</Link>
                 </p>
             </div>

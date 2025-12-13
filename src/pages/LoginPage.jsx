@@ -1,8 +1,8 @@
+// frontend-app/src/pages/LoginPage.jsx
+
 import React, { useState } from 'react';
-// Cerca del inicio de LoginPage.jsx 
-// O
-import api from '@/utils/api';
-import { useNavigate } from 'react-router-dom';
+import api from '../utils/api'; 
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
@@ -17,11 +17,9 @@ const LoginPage = () => {
         setError(''); 
 
         try {
-            // Petición al backend (el proxy de Vite lo dirige a http://localhost:5000/api/auth/login)
-            const response = await api.post('/auth/login', { username, password });            
-            login(response.data); // Almacena token, username y role en el contexto
-            
-            navigate('/'); 
+            const response = await api.post('/auth/login', { username, password }); 
+            login(response.data); 
+            navigate('/dashboard'); 
 
         } catch (err) {
             setError(err.response?.data?.message || 'Error de conexión o credenciales inválidas');
@@ -29,7 +27,6 @@ const LoginPage = () => {
     };
 
     return (
-        // 1. Contenedor principal del formulario: centrado y con estilo 'card'
         <div className="login-container"> 
             <div className="card">
                 <h2>Iniciar Sesión</h2>
@@ -41,7 +38,7 @@ const LoginPage = () => {
                         <input
                             type="text"
                             id="username"
-                            className="form-control" // <-- Clase para inputs
+                            className="form-control"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -53,7 +50,7 @@ const LoginPage = () => {
                         <input
                             type="password"
                             id="password"
-                            className="form-control" // <-- Clase para inputs
+                            className="form-control"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -62,11 +59,14 @@ const LoginPage = () => {
 
                     <button 
                         type="submit" 
-                        className="btn btn-primary btn-block" // <-- Clases para botones
+                        className="btn btn-primary btn-block"
                     >
                         Entrar
                     </button>
                 </form>
+                <p className="form-group" style={{ marginTop: '20px', textAlign: 'center' }}>
+                    ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
+                </p>
             </div>
         </div>
     );

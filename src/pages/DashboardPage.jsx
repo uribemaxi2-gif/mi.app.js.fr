@@ -78,7 +78,7 @@ const DashboardPage = () => {
             {/* Listado de Proyectos */}
             <ul style={{ listStyle: 'none', padding: 0 }}>
                 {projects.map((project) => (
-                    <li key={project._id} className="card" style={{ border: '1px solid #eee', padding: '10px', marginBottom: '10px' }}>
+                    <li key={project._id} className="card"> 
                         <strong>{project.title}</strong> ({project.isVisible ? 'Público' : 'Privado'})
                         <p>{project.description}</p>
                     </li>
