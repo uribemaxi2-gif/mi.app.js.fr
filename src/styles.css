@@ -1,15 +1,18 @@
 /* ========================================================= */
-/* 1. VARIABLES CSS (Utiliza estas variables en tus componentes) */
+/* 1. VARIABLES CSS (ACTUALIZADAS) */
 /* ========================================================= */
 :root {
-    --color-primary: #007bff; /* Azul vibrante */
-    --color-secondary: #6c757d; /* Gris para elementos secundarios */
-    --color-background: #f8f9fa; /* Fondo claro */
-    --color-text: #343a40; /* Texto oscuro */
-    --color-error: #dc3545; /* Rojo para errores */
-    --font-stack: 'Arial', sans-serif;
-    --border-radius: 4px;
-    --spacing-unit: 10px;
+    /* Colores */
+    --color-primary: #007ACC; /* Azul moderno, accesible */
+    --color-secondary: #6c757d; 
+    --color-background: #F0F2F5; /* Fondo más suave */
+    --color-text: #343a40; 
+    --color-error: #dc3545; 
+
+    /* Tipografía y Espaciado */
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Pila moderna */
+    --border-radius: 6px; /* Radio ligeramente más grande */
+    --spacing-unit: 16px; /* Más espaciado para un diseño menos denso */
 }
 
 /* ========================================================= */
@@ -21,64 +24,85 @@ body {
     font-family: var(--font-stack);
     background-color: var(--color-background);
     color: var(--color-text);
+    /* Animación sutil para que el cambio de fondo no sea brusco (si cambias entre temas) */
+    transition: background-color 0.3s ease; 
 }
 
 h1, h2, h3 {
-    color: var(--color-primary);
+    color: var(--color-text); /* Hace el encabezado menos intrusivo, más profesional */
+    font-weight: 700;
     margin-top: 0;
+    margin-bottom: var(--spacing-unit);
 }
 
-/* Contenedor principal para centrar contenido */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--spacing-unit); 
 }
 
 /* ========================================================= */
-/* 3. ESTILOS DE FORMULARIO REUTILIZABLES */
+/* 3. ESTILOS DE FORMULARIO REUTILIZABLES (MEJORADOS) */
 /* ========================================================= */
-
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-unit); 
 }
 
 .form-control {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px; /* Mayor padding para mejor legibilidad */
     border: 1px solid #ced4da;
     border-radius: var(--border-radius);
-    box-sizing: border-box; /* Asegura que padding no aumente el width total */
+    box-sizing: border-box; 
     font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Transiciones para el foco */
 }
 
-/* Estilo para mensajes de error en formularios */
+.form-control:focus {
+    border-color: var(--color-primary); 
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.15); /* Anillo de foco sutil */
+}
+
+.form-control.is-invalid {
+    border-color: var(--color-error); 
+}
+
 .error-message {
     color: var(--color-error);
-    font-size: 0.9em;
-    margin-top: 5px;
+    font-size: 0.85em; /* Ligeramente más pequeño */
+    margin-top: 4px; 
 }
 
 /* ========================================================= */
-/* 4. ESTILOS DE BOTONES */
+/* 4. ESTILOS DE BOTONES (MEJORADOS) */
 /* ========================================================= */
 
 .btn {
-    padding: 10px 20px;
+    padding: 12px 24px; /* Más padding para botones */
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+    font-weight: 600; /* Peso de fuente ligeramente menor */
+    font-size: 16px;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease; 
 }
 
 .btn-primary {
     background-color: var(--color-primary);
     color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para elevarlo */
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Tono más oscuro al pasar el ratón */
+    background-color: #0056b3; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más grande al pasar el ratón */
+}
+
+.btn-primary:active {
+    background-color: #004494; /* Tono más oscuro al hacer click */
+    transform: translateY(1px); /* Efecto de presión */
+    box-shadow: none;
 }
 
 .btn-block {
@@ -86,20 +110,24 @@ h1, h2, h3 {
     display: block;
 }
 
-/* Estilo para tarjetas o contenedores con fondo blanco (ej: formulario de login) */
+/* ========================================================= */
+/* 5. ESTILOS DE TARJETA (MEJORADOS) */
+/* ========================================================= */
+
 .card {
     background-color: white;
-    padding: 20px;
+    padding: var(--spacing-unit); 
     border-radius: var(--border-radius);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra de elevación moderna */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05); 
 }
 
-/* Estilo específico para centrar la tarjeta de login */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa el 100% de la altura de la ventana */
+    min-height: 100vh; /* Usa min-height para manejar contenido largo */
+    padding: var(--spacing-unit);
 }
 
 .login-container .card {
