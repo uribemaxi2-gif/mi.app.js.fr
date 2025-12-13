@@ -5,7 +5,7 @@
     /* Colores */
     --color-primary: #007ACC; /* Azul moderno, accesible */
     --color-secondary: #6c757d; 
-    --color-background: #F0F2F5; /* Fondo más suave */
+    --color-background: #b30782; /* Fondo más suave */
     --color-text: #343a40; 
     --color-error: #dc3545; 
 
@@ -90,7 +90,7 @@ h1, h2, h3 {
 
 .btn-primary {
     background-color: var(--color-primary);
-    color: white;
+    color: rgb(22, 192, 65);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para elevarlo */
 }
 
@@ -100,7 +100,7 @@ h1, h2, h3 {
 }
 
 .btn-primary:active {
-    background-color: #004494; /* Tono más oscuro al hacer click */
+    background-color: #061323; /* Tono más oscuro al hacer click */
     transform: translateY(1px); /* Efecto de presión */
     box-shadow: none;
 }
@@ -115,7 +115,7 @@ h1, h2, h3 {
 /* ========================================================= */
 
 .card {
-    background-color: white;
+    background-color: rgb(222, 2, 2);
     padding: var(--spacing-unit); 
     border-radius: var(--border-radius);
     /* Sombra de elevación moderna */
