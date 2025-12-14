@@ -22,10 +22,27 @@ body {
     margin: 0;
     padding: 0;
     font-family: var(--font-stack);
-    background-color: var(--color-background);
+    /* ELIMINA: background-color: var(--color-background); */
+    
     color: var(--color-text);
-    /* Animación sutil para que el cambio de fondo no sea brusco (si cambias entre temas) */
     transition: background-color 0.3s ease; 
+    
+    /* === PROPIEDADES PARA AÑADIR LA IMAGEN DE FONDO === */
+    
+    /* 1. Define la imagen a usar */
+    background-image: url('../public/fondo.jpeg'); 
+    
+    /* 2. Asegura que la imagen cubra toda la pantalla sin cortar su proporción */
+    background-size: cover;
+    
+    /* 3. Evita que la imagen se repita si no cubre toda la pantalla */
+    background-repeat: no-repeat;
+    
+    /* 4. Fija la imagen: el contenido se desplaza, pero la imagen permanece estática. (Efecto muy usado) */
+    background-attachment: fixed; 
+    
+    /* 5. Asegura que el fondo cubra al menos el alto total del viewport */
+    min-height: 100vh;
 }
 
 h1, h2, h3 {
