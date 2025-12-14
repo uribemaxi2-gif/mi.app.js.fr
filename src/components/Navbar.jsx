@@ -1,23 +1,23 @@
-// frontend-app/src/components/Navbar.jsx (CÓDIGO CORREGIDO)
+// frontend-app/src/components/Navbar.jsx (VERSION FINAL Y CORREGIDA)
 
 import React from 'react';
-import { Link } from 'react-router-dom'; // Eliminamos useNavigate ya que el logout lo maneja
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { isAuthenticated, isAdmin, logout, user } = useAuth();
 
     const handleLogout = () => {
-        // Ejecuta el logout (que debe redirigir a /login en el AuthContext)
+        // Llama al logout del contexto, que también debe manejar la redirección.
         logout(); 
     };
 
     return (
-        // 1. Aplicar clase principal de Navbar
+        // 1. Aplica la clase del contenedor principal
         <nav className="navbar-container"> 
             
-            <div className="navbar-links"> {/* Usar clase para espaciado */}
-                {/* 2. Aplicar clase para enlaces */}
+            {/* 2. Área de enlaces: aplica la clase de espaciado */}
+            <div className="navbar-links"> 
                 <Link to="/" className="navbar-link">Home</Link>
                 
                 {isAdmin && (
@@ -25,7 +25,8 @@ const Navbar = () => {
                 )}
             </div>
 
-            <div className="user-auth-area"> {/* Usar clase para alinear elementos de autenticación */}
+            {/* 🚨 CRÍTICO: Aplica la clase user-auth-area para que el 'gap' se aplique */}
+            <div className="user-auth-area"> 
                 {isAuthenticated ? (
                     <>
                         {/* 3. Saludo con clase y comprobación de user */}
@@ -33,13 +34,14 @@ const Navbar = () => {
                         
                         <button 
                             onClick={handleLogout} 
-                            // 4. Usar la clase btn general y un estilo de botón secundario/transparente
+                            // Usamos btn para los estilos base, y el estilo de botón secundario/peligro
                             className="btn" 
                             style={{ 
+                                // Estilos temporales/secundarios que deberían estar en styles.css (.btn-secondary)
                                 backgroundColor: 'transparent', 
                                 color: 'white', 
                                 border: '1px solid white', 
-                                padding: '8px 16px', /* Ajuste de padding temporal */
+                                padding: '8px 16px', 
                             }}
                         >
                             Cerrar Sesión

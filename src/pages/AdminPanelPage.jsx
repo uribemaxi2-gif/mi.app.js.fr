@@ -1,7 +1,7 @@
-// frontend-app/src/pages/AdminPanelPage.jsx
+// frontend-app/src/pages/AdminPanelPage.jsx (Estilos Corregidos)
 
 import React, { useState, useEffect } from 'react';
-import api from '../utils/api'; // CRÍTICO: Asegura la ruta correcta
+import api from '../utils/api'; 
 import { useAuth } from '../context/AuthContext';
 import UserManagement from '../components/UserManagement'; 
 
@@ -15,10 +15,12 @@ const AdminPanelPage = () => {
     const [description, setDescription] = useState('');
     const [isVisible, setIsVisible] = useState(true);
 
-    // ... (Lógica fetchProjects, handleCreateProject, handleDeleteProject) ...
-    const fetchProjects = async () => { /* ... lógica de la API ... */ setLoading(false); };
-    const handleCreateProject = async (e) => { /* ... lógica de creación ... */ };
-    const handleDeleteProject = async (id) => { /* ... lógica de eliminación ... */ };
+    // ===============================================
+    // LÓGICA DE GESTIÓN DE PROYECTOS (Revisar en Punto 2)
+    // ===============================================
+    const fetchProjects = async () => { /* ... (código que ya tenías) ... */ };
+    const handleCreateProject = async (e) => { /* ... (código que ya tenías) ... */ };
+    const handleDeleteProject = async (id) => { /* ... (código que ya tenías) ... */ };
     
     useEffect(() => {
         if (activeTab === 'proyectos') {
@@ -26,7 +28,11 @@ const AdminPanelPage = () => {
         }
     }, [activeTab]);
 
-    // ... (renderContent function) ...
+    // Manejo de carga e identidad (para evitar error de null si fuera el caso)
+    if (!user) return <p>Cargando información del administrador...</p>;
+    if (activeTab === 'proyectos' && loading) return <p>Cargando proyectos...</p>;
+    if (error) return <p className="error-message">{error}</p>;
+
     const renderContent = () => {
         if (activeTab === 'usuarios') {
             return <UserManagement />; 
@@ -36,11 +42,12 @@ const AdminPanelPage = () => {
             return <h3>⚙️ Configuración del Administrador (Perfil propio, contraseña, etc.)</h3>;
         }
 
+        // Pestaña 'proyectos' (CRUD)
         return (
             <>
-                <div className="card" style={{ marginBottom: '30px' }}> {/* Estilo inline para el margen */}
+                <div className="card" style={{ marginBottom: '30px' }}>
                     <h2>Crear Nuevo Proyecto</h2>
-                    <form onSubmit={handleCreateProject}> {/* ❌ ELIMINAR style={{ padding: '15px', marginBottom: '30px' }} */}
+                    <form onSubmit={handleCreateProject}>
                         <div className="form-group">
                             <input type="text" placeholder="Título" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control" required />
                         </div>
@@ -48,10 +55,9 @@ const AdminPanelPage = () => {
                             <textarea placeholder="Descripción del experimento" value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" required />
                         </div>
                         
-                        {/* 🚨 NOTA: Usa la clase .form-group o un div para el checkbox si lo necesitas */}
                         <div className="form-group"> 
-                            <label>
-                                <input type="checkbox" checked={isVisible} onChange={(e) => setIsVisible(e.target.checked)} style={{ marginRight: '8px' }}/>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <input type="checkbox" checked={isVisible} onChange={(e) => setIsVisible(e.target.checked)} />
                                 Visible para usuarios normales
                             </label>
                         </div>
@@ -65,15 +71,15 @@ const AdminPanelPage = () => {
                 <h2>Listado de Experimentos ({projects.length})</h2>
                 <ul style={{ listStyle: 'none', padding: 0 }}>
                     {projects.map((project) => (
-                        <li key={project._id} className="card" style={{ marginBottom: '10px' }}> {/* ❌ ELIMINAR style={{ border: '1px solid #eee', padding: '10px', marginBottom: '10px' }} */}
+                        // Usamos solo la clase card, el margen se ajusta
+                        <li key={project._id} className="card" style={{ marginBottom: '10px' }}>
                             <strong>{project.title}</strong> ({project.isVisible ? 'Público' : 'Privado'})
                             <p>{project.description}</p>
                             
                             <button 
                                 onClick={() => handleDeleteProject(project._id)} 
-                                // 🚨 Aplicar clase de botón de peligro/secundario (ajustar si tienes .btn-danger)
-                                className="btn" 
-                                style={{ backgroundColor: '#dc3545', color: 'white', marginTop: '10px' }} 
+                                // Usamos la clase btn-danger que definimos
+                                className="btn btn-danger" 
                             >
                                 Eliminar
                             </button>
@@ -84,32 +90,28 @@ const AdminPanelPage = () => {
         );
     };
 
-    if (activeTab === 'proyectos' && loading) return <p>Cargando panel de administración...</p>;
-    if (error) return <p className="error-message">{error}</p>;
-
     return (
-        <div style={{ padding: '20px' }}> {/* Mantenemos el padding externo si lo quieres */}
+        <div style={{ padding: '20px' }}>
             <h1>🚀 Panel de Administración</h1>
             <p>Bienvenido, {user.username} ({user.role.toUpperCase()}).</p>
             
             {/* --- Barra de Pestañas (Tabs) --- */}
-            {/* Estos estilos son complejos y mejor se mueven a una clase .admin-tabs en styles.css */}
-            <div style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>
+            <div className="admin-tabs">
                 <button 
                     onClick={() => setActiveTab('proyectos')} 
-                    style={{ fontWeight: activeTab === 'proyectos' ? 'bold' : 'normal', padding: '10px', border: 'none', backgroundColor: activeTab === 'proyectos' ? '#e9ecef' : 'transparent' }}
+                    className={`tab-button ${activeTab === 'proyectos' ? 'active' : ''}`}
                 >
                     Proyectos 
                 </button>
                 <button 
                     onClick={() => setActiveTab('usuarios')} 
-                    style={{ fontWeight: activeTab === 'usuarios' ? 'bold' : 'normal', padding: '10px', border: 'none', marginLeft: '10px', backgroundColor: activeTab === 'usuarios' ? '#e9ecef' : 'transparent' }}
+                    className={`tab-button ${activeTab === 'usuarios' ? 'active' : ''}`}
                 >
                     Gestión de Usuarios
                 </button>
                 <button 
                     onClick={() => setActiveTab('config')} 
-                    style={{ fontWeight: activeTab === 'config' ? 'bold' : 'normal', padding: '10px', border: 'none', marginLeft: '10px', backgroundColor: activeTab === 'config' ? '#e9ecef' : 'transparent' }}
+                    className={`tab-button ${activeTab === 'config' ? 'active' : ''}`}
                 >
                     Configuración
                 </button>
